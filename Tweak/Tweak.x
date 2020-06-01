@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 
-
+BOOL ccOpen = false;
 BOOL Enabled = false;
 float timesl = 2;
 NSTimeInterval timeg;
@@ -11,20 +11,51 @@ static void loadPrefs()
     if(prefs)
     {
         Enabled = ( [prefs objectForKey:@"Enabled"] ? [[prefs objectForKey:@"Enabled"] boolValue] : Enabled );
+		timesl = ( [prefs objectForKey:@"time"] ? [[prefs objectForKey:@"time"] doubleValue] : 2 );
     }
 }
 
 %ctor 
 {
-	timeg = timesl;
     loadPrefs();
+	timeg = timesl;
 }
 
+@interface SBControlCenterController
+-(BOOL)isPresented;
+@end
 
 @interface CCUIRoundButton : UIControl
 @property(nonatomic, retain)UIView* selectedStateBackgroundView;
 @end
 
+
+
+
+%hook SBControlCenterController
+
+
+%new
+- (void)targetMethod: (NSTimer *)timer {
+
+	if (Enabled) {
+		ccOpen = [self isPresented];
+	}
+}
+
+
+-(id)init {
+	
+	[NSTimer scheduledTimerWithTimeInterval:timeg
+	target: self
+	selector:@selector(targetMethod:)
+	userInfo:[NSDictionary dictionaryWithObject:self 
+				forKey:@"name"]
+	repeats:YES];
+	return %orig;
+}
+
+%end
 
 %hook CCUIRoundButton
 %property(nonatomic, assign)BOOL running;
@@ -44,7 +75,7 @@ static void loadPrefs()
 %new
 - (void)targetMethod: (NSTimer *)timer {
 
-	if (Enabled) {
+	if (Enabled && ccOpen) {
 		CGFloat hue = ( arc4random() % 256 / 256.0 );  //  0.0 to 1.0
 		CGFloat saturation = ( arc4random() % 128 / 256.0 ) + 0.5; // 0.5 to 1.0, away from white
 		CGFloat brightness = ( arc4random() % 128 / 256.0 ) + 0.5; // 0.5 to 1.0, away from black
