@@ -29,6 +29,11 @@ static void loadPrefs()
 @property(nonatomic, retain)UIView* selectedStateBackgroundView;
 @end
 
+@interface MTMaterialView : UIView
+@property UIColor* backgroundColor;
+@property(nonatomic, assign) NSString* recipeName;
+-(id)init;
+@end
 
 
 
@@ -82,6 +87,39 @@ static void loadPrefs()
 		UIColor *color = [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:1];
 		[UIView animateWithDuration:timeg animations:^{
 			self.selectedStateBackgroundView.backgroundColor = color;
+		} completion:NULL];
+	}
+}
+
+%end
+
+%hook MTMaterialView
+
+
+-(id) init {
+	NSLog(@"%@", self.recipeName);
+	if ([self.recipeName isEqual: @"modules"]) {
+		[NSTimer scheduledTimerWithTimeInterval:timeg
+		target: self
+		selector:@selector(targetMethod:)
+		userInfo:[NSDictionary dictionaryWithObject:self 
+					forKey:@"name"]
+		repeats:YES];
+	}
+	return %orig;
+}
+
+
+%new
+- (void)targetMethod: (NSTimer *)timer {
+
+	if (Enabled && ccOpen) {
+		CGFloat hue = ( arc4random() % 256 / 256.0 );  //  0.0 to 1.0
+		CGFloat saturation = ( arc4random() % 128 / 256.0 ) + 0.5; // 0.5 to 1.0, away from white
+		CGFloat brightness = ( arc4random() % 128 / 256.0 ) + 0.5; // 0.5 to 1.0, away from black
+		UIColor *color = [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:1];
+		[UIView animateWithDuration:timeg animations:^{
+			self.backgroundColor = color;
 		} completion:NULL];
 	}
 }
