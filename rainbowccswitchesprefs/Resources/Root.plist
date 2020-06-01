@@ -11,6 +11,8 @@
 			<string>RainbowCCSwitchesPrefs Settings Page</string>
 		</dict>
 		<dict>
+			<key>PostNotification</key>
+			<string>com.github.airketchplayz.rainbowccswitchesprefs/changed</string>
 			<key>cell</key>
 			<string>PSSwitchCell</string>
 			<key>default</key>
@@ -21,14 +23,15 @@
 			<string>Enabled</string>
 			<key>label</key>
 			<string>Enabled</string>
-			<key>PostNotification</key>
-			<string>com.github.airketchplayz.rainbowccswitchesprefs/changed</string>
 		</dict>
 		<dict>
-            <key>cell</key>             <string>PSButtonCell</string>
-            <key>label</key>            <string>Apply changes and respring</string>
-            <key>action</key>           <string>respring</string>
-        </dict>
+			<key>action</key>
+			<string>respring:</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>RESPRING</string>
+		</dict>
 	</array>
 	<key>title</key>
 	<string>RainbowCCSwitchesPrefs</string>

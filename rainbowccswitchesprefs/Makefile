@@ -3,7 +3,6 @@ ARCHS = arm64 arm64e
 BUNDLE_NAME = RainbowCCSwitchesPrefs
 
 
-$(TWEAK_NAME)_EXTRA_FRAMEWORKS += Cephei
 RainbowCCSwitchesPrefs_FILES = RCCSRootListController.m
 RainbowCCSwitchesPrefs_INSTALL_PATH = /Library/PreferenceBundles
 RainbowCCSwitchesPrefs_FRAMEWORKS = UIKit
