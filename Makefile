@@ -11,7 +11,6 @@ export TWEAK_NAME = RainbowCCSwitches
 $(TWEAK_NAME)_FILES = Tweak/Tweak.x
 $(TWEAK_NAME)_CFLAGS = -fobjc-arc
 $(TWEAK_NAME)_FRAMEWORKS = UIKit
-$(TWEAK_NAME)_EXTRA_FRAMEWORKS += Cephei
 
 include $(THEOS_MAKE_PATH)/tweak.mk
 SUBPROJECTS += rainbowccswitchesprefs
